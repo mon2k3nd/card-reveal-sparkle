@@ -13,16 +13,6 @@ import a6 from "@/assets/TVT01187.JPG.asset.json";
 import a7 from "@/assets/TVT01136.JPG.asset.json";
 import a8 from "@/assets/TVT01066.JPG.asset.json";
 import a9 from "@/assets/TVT01057.JPG.asset.json";
-import n1 from "@/assets/TVT00593.JPG.asset.json";
-import n2 from "@/assets/TVT00610.JPG.asset.json";
-import n3 from "@/assets/TVT00661.JPG.asset.json";
-import n4 from "@/assets/TVT00690.JPG.asset.json";
-import n5 from "@/assets/TVT00701.JPG.asset.json";
-import n6 from "@/assets/TVT00726.JPG.asset.json";
-import n7 from "@/assets/TVT00743.JPG.asset.json";
-import n8 from "@/assets/TVT00744.JPG.asset.json";
-import n9 from "@/assets/TVT00792.JPG.asset.json";
-import n10 from "@/assets/TVT00576.JPG.asset.json";
 import musicAsset from "@/assets/leDuong.mp3.asset.json";
 
 export const Route = createFileRoute("/")({
@@ -37,10 +27,9 @@ export const Route = createFileRoute("/")({
   component: WeddingInvitation,
 });
 
-const newPhotos = [n1.url, n2.url, n3.url, n4.url, n5.url, n6.url, n7.url, n8.url, n9.url, n10.url];
 const [img1, img2, img3, img4, img5, img6, img7, img8, img9] = [a1.url, a2.url, a3.url, a4.url, a5.url, a6.url, a7.url, a8.url, a9.url];
 const photos = [img1, img2, img3, img4, img5, img6, img7, img8, img9];
-const gallery = [...newPhotos, ...photos.slice(2)];
+const gallery = photos;
 const weddingDate = new Date("2026-10-03T10:00:00+07:00").getTime();
 
 function IconButton({ label, onClick, children, className = "" }: { label: string; onClick: () => void; children: React.ReactNode; className?: string }) {
@@ -49,6 +38,7 @@ function IconButton({ label, onClick, children, className = "" }: { label: strin
 
 function WeddingInvitation() {
   const [opened, setOpened] = useState(false);
+  const [opening, setOpening] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [progress, setProgress] = useState(0);
@@ -98,8 +88,10 @@ function WeddingInvitation() {
   }, []);
 
   async function enterInvitation() {
-    setOpened(true);
+    if (opening) return;
+    setOpening(true);
     try { await audioRef.current?.play(); setPlaying(true); } catch { setPlaying(false); }
+    window.setTimeout(() => setOpened(true), 1450);
   }
   async function toggleMusic() {
     if (!audioRef.current) return;
@@ -125,12 +117,24 @@ function WeddingInvitation() {
 
   return <main className="paper-texture min-h-screen text-foreground">
     <audio ref={audioRef} src={musicAsset.url} loop preload="metadata" />
-    {!opened && <div className="fixed inset-0 z-50 grid place-items-center overflow-hidden bg-sky-soft px-6">
-      <div aria-hidden className="absolute inset-x-0 bottom-0 h-1/2 bg-secondary/40 [clip-path:polygon(0_35%,50%_0,100%_35%,100%_100%,0_100%)]" />
-      <Button type="button" variant="envelope" onClick={enterInvitation} className="reveal-up relative grid aspect-[1.45] h-auto w-full max-w-sm place-items-center overflow-hidden p-0">
-        <span className="absolute inset-x-0 top-0 h-1/2 origin-top bg-primary/15 [clip-path:polygon(0_0,100%_0,50%_100%)]" />
-        <span className="z-10 grid h-20 w-20 place-items-center rounded-full bg-secondary font-display text-2xl italic text-secondary-foreground shadow-lg">M · T</span>
-        <span className="absolute bottom-6 text-xs uppercase text-muted-foreground">Chạm để mở thiệp</span>
+    {!opened && <div className={`invitation-cover fixed inset-0 z-50 grid place-items-center overflow-hidden bg-sky-soft px-6 ${opening ? "is-opening" : ""}`}>
+      <div aria-hidden className="cover-floor absolute inset-x-0 bottom-0 h-[38%] bg-secondary/25" />
+      <Button type="button" variant="envelope" onClick={enterInvitation} aria-label="Mở thiệp cưới" className="envelope-scene relative h-auto w-full max-w-sm overflow-visible border-0 bg-transparent p-0 shadow-none hover:scale-100">
+        <span className="invitation-card absolute inset-x-[7%] bottom-[8%] z-10 flex aspect-[4/5] flex-col items-center bg-card px-5 pt-8 text-center shadow-xl">
+          <span className="text-[9px] uppercase tracking-[.28em] text-primary">Save the date</span>
+          <span className="mt-3 font-display text-4xl leading-none">Thảo My</span>
+          <span className="font-display text-xl italic text-accent">&</span>
+          <span className="font-display text-4xl leading-none">Xuân Tú</span>
+          <span className="mt-4 text-[10px] tracking-[.22em] text-muted-foreground">03 · 10 · 2026</span>
+        </span>
+        <span className="envelope-shell relative z-20 block aspect-[1.45] w-full overflow-hidden bg-card film-shadow">
+          <span className="absolute inset-y-0 left-0 w-[52%] bg-primary/10 [clip-path:polygon(0_0,100%_50%,0_100%)]" />
+          <span className="absolute inset-y-0 right-0 w-[52%] bg-secondary/22 [clip-path:polygon(100%_0,0_50%,100%_100%)]" />
+          <span className="absolute inset-x-0 bottom-0 h-[58%] bg-card [clip-path:polygon(0_100%,0_35%,50%_0,100%_35%,100%_100%)]" />
+        </span>
+        <span className="envelope-flap absolute inset-x-0 top-0 z-30 block h-1/2 origin-top bg-primary/15 [clip-path:polygon(0_0,100%_0,50%_100%)]" />
+        <span className="wax-seal absolute left-1/2 top-1/2 z-40 grid h-20 w-20 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-secondary font-display text-2xl italic text-secondary-foreground shadow-lg">M · T</span>
+        <span className="open-label absolute left-1/2 top-[calc(100%+1.75rem)] z-40 -translate-x-1/2 whitespace-nowrap text-xs uppercase text-muted-foreground">Chạm để mở thiệp</span>
       </Button>
     </div>}
     <div className="fixed inset-x-0 top-0 z-40 h-1 bg-border no-print"><div className="h-full bg-primary transition-[width]" style={{ width: `${progress}%` }} /></div>
@@ -142,7 +146,7 @@ function WeddingInvitation() {
     </div>
 
     <section id="home" className="relative min-h-[94svh] overflow-hidden bg-foreground">
-      <img src={n1.url} alt="Thảo My và Xuân Tú trong ngày cưới" className="hero-photo absolute inset-0 h-full w-full object-cover object-[50%_32%]" />
+       <img src={img1} alt="Thảo My và Xuân Tú trong ngày cưới" className="hero-photo absolute inset-0 h-full w-full object-cover object-[50%_32%]" />
       <div className="hero-vignette absolute inset-0" />
       <div className="relative mx-auto flex min-h-[94svh] max-w-5xl flex-col items-center justify-end px-5 pb-14 text-center text-primary-foreground">
         <p className="mb-5 text-xs uppercase tracking-[.28em]">Save the date · 03.10.2026</p>
@@ -173,7 +177,7 @@ function WeddingInvitation() {
     </section>
 
     <section id="gallery" className="gallery-stage py-20 md:py-28"><div className="mx-auto max-w-6xl"><div className="px-6 text-center"><p className="text-xs uppercase tracking-[.24em] text-primary">Chương III · Những thước phim</p><h2 className="mt-4 text-5xl">Một đời, thật nhiều dịu dàng</h2><p className="mx-auto mt-4 max-w-sm text-sm leading-6 text-muted-foreground">Chạm vào ảnh để xem trọn khoảnh khắc</p></div>
-      <div className="mt-12 grid grid-cols-2 items-start gap-1.5 px-1.5 sm:gap-3 sm:px-3 md:grid-cols-3">{gallery.map((src,i) => { const featured = i === 0 || i === 5 || i === 10; return <Button type="button" variant="image" key={src} onClick={() => setLightboxIndex(i)} className={`gallery-tile group relative overflow-hidden p-0 ${featured ? "col-span-2 aspect-[16/10] md:col-span-1 md:aspect-[3/4]" : "aspect-[3/4]"}`}><img src={src} alt={`Khoảnh khắc cưới ${i+1}`} loading="eager" className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.035]"/><span className="gallery-sheen absolute inset-0"/><span className="absolute bottom-3 left-3 font-display text-sm italic text-primary-foreground/90">{String(i+1).padStart(2,"0")}</span></Button>; })}</div></div>
+      <div className="mt-12 grid grid-cols-2 items-start gap-1.5 px-1.5 sm:gap-3 sm:px-3 md:grid-cols-3">{gallery.map((src,i) => { const featured = i === 0 || i === 5; return <Button type="button" variant="image" key={src} onClick={() => setLightboxIndex(i)} className={`gallery-tile group relative h-auto w-full min-w-0 overflow-hidden p-0 ${featured ? "col-span-2 aspect-[16/10] md:col-span-1 md:aspect-[3/4]" : "aspect-[3/4]"}`}><img src={src} alt={`Khoảnh khắc cưới ${i+1}`} loading="lazy" className="absolute inset-0 block h-full w-full object-cover transition duration-700 group-hover:scale-[1.035]"/><span className="gallery-sheen absolute inset-0"/><span className="absolute bottom-3 left-3 font-display text-sm italic text-primary-foreground/90">{String(i+1).padStart(2,"0")}</span></Button>; })}</div></div>
     </section>
 
     <section id="date" className="mx-auto max-w-5xl px-6 py-24"><div className="grid gap-12 md:grid-cols-2"><div><p className="text-xs uppercase tracking-[.24em] text-primary">Chương IV · Hẹn ngày</p><h2 className="mt-4 text-5xl">Tháng Mười<br/>mình có hẹn</h2><p className="mt-6 text-muted-foreground">Dự báo thời tiết sẽ được cập nhật khi gần tới ngày cưới.</p></div><Calendar /></div>

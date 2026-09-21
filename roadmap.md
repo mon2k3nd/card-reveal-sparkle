@@ -1,6 +1,7 @@
 # Roadmap
 
-- [ ] Continue the exact visual-wow-showcase GitHub project in this preview
-- [ ] Add a polished envelope-opening experience
-- [ ] Fix gallery image sizing on mobile
-- [ ] Verify desktop and mobile presentation
+- [x] Continue the exact visual-wow-showcase GitHub project in this preview
+- [x] Add a polished envelope-opening experience
+- [x] Fix gallery image sizing on mobile
+- [x] Verify desktop and mobile presentation
+- [x] Preserve the existing project design; only improve envelope opening and fix mobile gallery sizing
