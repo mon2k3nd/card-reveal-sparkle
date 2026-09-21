@@ -4,3 +4,4 @@
 - [ ] Add a polished envelope-opening experience
 - [ ] Fix gallery image sizing on mobile
 - [ ] Verify desktop and mobile presentation
+- [ ] Preserve the existing project design; only improve envelope opening and fix mobile gallery sizing
