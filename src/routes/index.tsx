@@ -91,7 +91,7 @@ function WeddingInvitation() {
     if (opening) return;
     setOpening(true);
     try { await audioRef.current?.play(); setPlaying(true); } catch { setPlaying(false); }
-    window.setTimeout(() => setOpened(true), 1450);
+    window.setTimeout(() => setOpened(true), 4300);
   }
   async function toggleMusic() {
     if (!audioRef.current) return;
@@ -117,24 +117,31 @@ function WeddingInvitation() {
 
   return <main className="paper-texture min-h-screen text-foreground">
     <audio ref={audioRef} src={musicAsset.url} loop preload="metadata" />
-    {!opened && <div className={`invitation-cover fixed inset-0 z-50 grid place-items-center overflow-hidden bg-sky-soft px-6 ${opening ? "is-opening" : ""}`}>
-      <div aria-hidden className="cover-floor absolute inset-x-0 bottom-0 h-[38%] bg-secondary/25" />
-      <Button type="button" variant="envelope" onClick={enterInvitation} aria-label="Mở thiệp cưới" className="envelope-scene relative h-auto w-full max-w-sm overflow-visible border-0 bg-transparent p-0 shadow-none hover:scale-100">
-        <span className="invitation-card absolute inset-x-[7%] bottom-[8%] z-10 flex aspect-[4/5] flex-col items-center bg-card px-5 pt-8 text-center shadow-xl">
-          <span className="text-[9px] uppercase tracking-[.28em] text-primary">Save the date</span>
-          <span className="mt-3 font-display text-4xl leading-none">Thảo My</span>
-          <span className="font-display text-xl italic text-accent">&</span>
-          <span className="font-display text-4xl leading-none">Xuân Tú</span>
-          <span className="mt-4 text-[10px] tracking-[.22em] text-muted-foreground">03 · 10 · 2026</span>
+    {!opened && <div className={`invitation-cover fixed inset-0 z-50 grid place-items-center overflow-hidden px-6 ${opening ? "is-opening" : ""}`}>
+      <img aria-hidden src={img1} className="cover-photo absolute inset-0 h-full w-full object-cover object-[50%_32%]" alt="" />
+      <div aria-hidden className="cover-photo-shade absolute inset-0" />
+      <div aria-hidden className="cover-floor absolute inset-x-0 bottom-0 h-[34%]" />
+      <span aria-hidden className="cover-petal petal-one" /><span aria-hidden className="cover-petal petal-two" /><span aria-hidden className="cover-petal petal-three" /><span aria-hidden className="cover-petal petal-four" />
+      <p className="cover-whisper absolute top-[12%] text-center font-display text-2xl italic">Có một lời hẹn<br/>đang chờ bạn mở…</p>
+      <Button type="button" variant="envelope" onClick={enterInvitation} aria-label="Mở thiệp cưới" className="envelope-scene relative h-auto w-full max-w-[350px] overflow-visible border-0 bg-transparent p-0 shadow-none hover:scale-100">
+        <span className="invitation-card absolute inset-x-[7%] bottom-[8%] z-10 flex aspect-[4/5] rotate-[-1deg] flex-col items-center overflow-hidden border border-primary/15 bg-card px-5 pt-7 text-center shadow-xl">
+          <span className="card-glint absolute inset-y-0 -left-1/3 w-1/3" />
+          <span className="text-[9px] uppercase tracking-[.3em] text-primary">Save the date</span>
+          <span className="mt-2 font-display text-[2.35rem] leading-none">Thảo My</span>
+          <span className="font-display text-2xl italic text-accent">&</span>
+          <span className="font-display text-[2.35rem] leading-none">Xuân Tú</span>
+          <span className="mt-3 h-px w-9 bg-primary/35" />
+          <span className="mt-3 text-[10px] tracking-[.22em] text-muted-foreground">03 · 10 · 2026</span>
+          <span className="card-photo absolute inset-x-3 bottom-3 top-[59%] overflow-hidden"><img src={img1} alt="" className="h-full w-full object-cover object-[50%_27%]" /></span>
         </span>
-        <span className="envelope-shell relative z-20 block aspect-[1.45] w-full overflow-hidden bg-card film-shadow">
-          <span className="absolute inset-y-0 left-0 w-[52%] bg-primary/10 [clip-path:polygon(0_0,100%_50%,0_100%)]" />
-          <span className="absolute inset-y-0 right-0 w-[52%] bg-secondary/22 [clip-path:polygon(100%_0,0_50%,100%_100%)]" />
+        <span className="envelope-shell relative z-20 block aspect-[1.45] w-full overflow-hidden film-shadow">
+          <span className="absolute inset-y-0 left-0 w-[52%] bg-card/90 [clip-path:polygon(0_0,100%_50%,0_100%)]" />
+          <span className="absolute inset-y-0 right-0 w-[52%] bg-secondary/45 [clip-path:polygon(100%_0,0_50%,100%_100%)]" />
           <span className="absolute inset-x-0 bottom-0 h-[58%] bg-card [clip-path:polygon(0_100%,0_35%,50%_0,100%_35%,100%_100%)]" />
         </span>
-        <span className="envelope-flap absolute inset-x-0 top-0 z-30 block h-1/2 origin-top bg-primary/15 [clip-path:polygon(0_0,100%_0,50%_100%)]" />
-        <span className="wax-seal absolute left-1/2 top-1/2 z-40 grid h-20 w-20 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-secondary font-display text-2xl italic text-secondary-foreground shadow-lg">M · T</span>
-        <span className="open-label absolute left-1/2 top-[calc(100%+1.75rem)] z-40 -translate-x-1/2 whitespace-nowrap text-xs uppercase text-muted-foreground">Chạm để mở thiệp</span>
+        <span className="envelope-flap absolute inset-x-0 top-0 z-30 block h-1/2 origin-top bg-secondary [clip-path:polygon(0_0,100%_0,50%_100%)]" />
+        <span className="wax-seal absolute left-1/2 top-1/2 z-40 grid h-[4.75rem] w-[4.75rem] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full font-display text-2xl italic text-primary-foreground">M · T<span className="seal-ring absolute inset-1 rounded-full border border-primary-foreground/25" /></span>
+        <span className="open-label absolute left-1/2 top-[calc(100%+1.75rem)] z-40 -translate-x-1/2 whitespace-nowrap text-[11px] uppercase tracking-[.22em] text-foreground">Chạm để mở thiệp<span className="mt-3 flex justify-center gap-1.5"><i/><i/><i/></span></span>
       </Button>
     </div>}
     <div className="fixed inset-x-0 top-0 z-40 h-1 bg-border no-print"><div className="h-full bg-primary transition-[width]" style={{ width: `${progress}%` }} /></div>
