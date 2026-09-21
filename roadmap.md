@@ -5,4 +5,4 @@
 - [x] Fix gallery image sizing on mobile
 - [x] Verify desktop and mobile presentation
 - [x] Preserve the existing project design; only improve envelope opening and fix mobile gallery sizing
-- [ ] Make the opening feel surprising and suspenseful over 3–5 seconds
+- [x] Make the opening feel surprising and suspenseful over 3–5 seconds
